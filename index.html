@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestCompare: Comprehensive Investment Comparison Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .calculator-slider {
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+        .comparison-table td {
+            text-align: center;
+        }
+        .comparison-table th {
+            text-align: center;
+        }
+        @media print {
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white p-6 shadow-lg">
+        <div class="container mx-auto">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">InvestCompare</h1>
+            <p class="text-xl">Comprehensive Investment Comparison Tool</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-6">
+            <ul class="flex flex-wrap space-x-1 md:space-x-8 text-sm md:text-base">
+                <li class="mb-2"><a href="#overview" class="text-blue-800 hover:text-blue-600 font-medium">Overview</a></li>
+                <li class="mb-2"><a href="#comparison" class="text-blue-800 hover:text-blue-600 font-medium">Investment Comparison</a></li>
+                <li class="mb-2"><a href="#historical-returns" class="text-blue-800 hover:text-blue-600 font-medium">Historical Returns</a></li>
+                <li class="mb-2"><a href="#risk-profiles" class="text-blue-800 hover:text-blue-600 font-medium">Risk Profiles</a></li>
+                <li class="mb-2"><a href="#calculators" class="text-blue-800 hover:text-blue-600 font-medium">Calculators</a></li>
+                <li class="mb-2"><a href="#recommendations" class="text-blue-800 hover:text-blue-600 font-medium">Recommendations</a></li>
+                <li class="mb-2"><a href="#education" class="text-blue-800 hover:text-blue-600 font-medium">Education</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Overview Section -->
+        <section id="overview" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Investment Options Overview</h2>
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <p class="text-gray-700 mb-4">Welcome to InvestCompare, your one-stop resource for making informed investment decisions. This tool provides comprehensive comparisons of various investment options available in India, including:</p>
+                <ul class="list-disc list-inside text-gray-700 mb-6 ml-4">
+                    <li>Stock Market Investments (Sensex, Nifty)</li>
+                    <li>Mutual Funds (Equity, Debt, Hybrid)</li>
+                    <li>Insurance Products (Traditional, Term)</li>
+                    <li>Unit Linked Insurance Plans (ULIPs)</li>
+                    <li>Real Estate Investments</li>
+                    <li>Gold Investments</li>
+                    <li>Government Savings Schemes (PPF, NSC, KVP)</li>
+                    <li>Fixed Deposits and Bonds</li>
+                    <li>National Pension Scheme (NPS)</li>
+                </ul>
+                <p class="text-gray-700 mb-4">Our platform helps you compare historical returns, assess risk profiles, understand tax implications, and make personalized investment decisions based on your financial goals and time horizon.</p>
+            </div>
+            
+            <div class="bg-blue-50 rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-4">How to Use This Tool</h3>
+                <ol class="list-decimal list-inside text-gray-700 mb-4 ml-4">
+                    <li class="mb-2">Use the <strong>Investment Comparison</strong> section to compare different investment options side by side.</li>
+                    <li class="mb-2">Explore <strong>Historical Returns</strong> data to understand past performance of various asset classes.</li>
+                    <li class="mb-2">Understand the <strong>Risk Profiles</strong> of different investments to match them with your risk tolerance.</li>
+                    <li class="mb-2">Use our <strong>Interactive Calculators</strong> to project potential returns over different time periods.</li>
+                    <li class="mb-2">Get <strong>Personalized Recommendations</strong> based on your financial goals and time horizon.</li>
+                </ol>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="text-yellow-700"><strong>Disclaimer:</strong> Past performance is not indicative of future results. All investment decisions should be made after considering your personal financial situation, goals, and risk tolerance. Consider consulting with a financial advisor before making significant investment decisions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Comparison Section -->
+        <section id="comparison" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Investment Comparison</h2>
+            
+            <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                <div class="bg-gray-50 p-4 border-b">
+                    <h3 class="text-xl font-semibold text-gray-800">Side-by-Side Comparison</h3>
+                    <p class="text-gray-600 mt-1">Compare key aspects of different investment options</p>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="comparison-table min-w-full">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="text-left">Investment Type</th>
+                                <th>Avg. 5yr Returns</th>
+                                <th>Avg. 10yr Returns</th>
+                                <th>Avg. 15yr Returns</th>
+                                <th>Avg. 20yr Returns</th>
+                                <th>Risk Level</th>
+                                <th>Liquidity</th>
+                                <th>Tax Efficiency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-left font-medium">Equity (Sensex/Nifty)</td>
+                                <td class="text-green-600">14.2%</td>
+                                <td class="text-green-600">13.5%</td>
+                                <td class="text-green-600">12.8%</td>
+                                <td class="text-green-600">15.7%</td>
+                                <td>High</td>
+                                <td>High</td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">Equity Mutual Funds</td>
+                                <td class="text-green-600">12.5%</td>
+                                <td class="text-green-600">12.8%</td>
+                                <td class="text-green-600">11.5%</td>
+                                <td class="text-green-600">14.2%</td>
+                                <td>High</td>
+                                <td>High</td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">Debt Mutual Funds</td>
+                                <td class="text-green-600">7.8%</td>
+                                <td class="text-green-600">8.2%</td>
+                                <td class="text-green-600">8.0%</td>
+                                <td class="text-green-600">7.4%</td>
+                                <td>Low-Medium</td>
+                                <td>High</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">Traditional Insurance</td>
+                                <td class="text-green-600">4.5%</td>
+                                <td class="text-green-600">5.0%</td>
+                                <td class="text-green-600">5.2%</td>
+                                <td class="text-green-600">5.5%</td>
+                                <td>Low</td>
+                                <td>Low</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">ULIP Plans</td>
+                                <td class="text-green-600">9.2%</td>
+                                <td class="text-green-600">8.7%</td>
+                                <td class="text-green-600">8.4%</td>
+                                <td class="text-green-600">8.0%</td>
+                                <td>Medium-High</td>
+                                <td>Low</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">Real Estate</td>
+                                <td class="text-green-600">8.5%</td>
+                                <td class="text-green-600">9.2%</td>
+                                <td class="text-green-600">9.8%</td>
+                                <td class="text-green-600">10.2%</td>
+                                <td>Medium</td>
+                                <td>Low</td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">Gold</td>
+                                <td class="text-green-600">11.8%</td>
+                                <td class="text-green-600">9.5%</td>
+                                <td class="text-green-600">10.6%</td>
+                                <td class="text-green-600">12.8%</td>
+                                <td>Medium</td>
+                                <td>Medium-High</td>
+                                <td>Low</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">PPF</td>
+                                <td class="text-green-600">7.1%</td>
+                                <td class="text-green-600">7.5%</td>
+                                <td class="text-green-600">7.8%</td>
+                                <td class="text-green-600">8.0%</td>
+                                <td>Very Low</td>
+                                <td>Low</td>
+                                <td>Very High</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">NSC</td>
+                                <td class="text-green-600">7.7%</td>
+                                <td class="text-green-600">7.9%</td>
+                                <td class="text-green-600">8.1%</td>
+                                <td class="text-green-600">8.2%</td>
+                                <td>Very Low</td>
+                                <td>Low</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">Fixed Deposits</td>
+                                <td class="text-green-600">6.5%</td>
+                                <td class="text-green-600">7.0%</td>
+                                <td class="text-green-600">7.2%</td>
+                                <td class="text-green-600">7.5%</td>
+                                <td>Very Low</td>
+                                <td>Medium</td>
+                                <td>Low</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left font-medium">NPS</td>
+                                <td class="text-green-600">11.2%</td>
+                                <td class="text-green-600">10.5%</td>
+                                <td class="text-green-600">9.8%</td>
+                                <td class="text-green-600">N/A</td>
+                                <td>Medium</td>
+                                <td>Very Low</td>
+                                <td>Very High</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-4 bg-gray-50 text-sm text-gray-600">
+                    <p>Source: Compiled from RBI, AMFI, NSE, BSE, and other financial data as of April 2025. All returns are annualized and indicative.</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Investment Returns Visualization</h3>
+                    <div class="chart-container">
+                        <canvas id="returnsChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Risk vs. Return Profile</h3>
+                    <div class="chart-container">
+                        <canvas id="riskReturnChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Key Insights from Comparison Data</h3>
+                <ul class="list-disc list-inside ml-4 text-gray-700 space-y-2">
+                    <li><strong>Highest Long-term Returns:</strong> Equity investments (direct stocks and equity mutual funds) have historically delivered the highest returns over 20-year periods, with the Sensex/Nifty showing annualized returns of 15.7%.</li>
+                    <li><strong>Balanced Risk-Return:</strong> NPS and ULIP funds offer a balanced risk-return profile with relatively better tax efficiency compared to direct equity investments.</li>
+                    <li><strong>Safe and Stable:</strong> Government schemes like PPF and NSC consistently deliver around 7-8% returns with extremely low risk, making them ideal for conservative investors.</li>
+                    <li><strong>Inflation Hedge:</strong> Gold has shown strong performance during economic uncertainties, delivering 12.8% returns over 20 years and serving as an effective inflation hedge.</li>
+                    <li><strong>Traditional Insurance:</strong> Traditional insurance products provide the lowest returns (4.5-5.5%) among all investment options but offer life coverage and high tax efficiency.</li>
+                    <li><strong>Real Estate Consideration:</strong> Real estate returns vary significantly by location but have generally provided stable long-term appreciation (10.2% over 20 years) along with potential rental income.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Historical Returns Section -->
+        <section id="historical-returns" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Historical Returns Analysis</h2>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Stock Market Returns (Sensex/Nifty)</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>1-Year Return</th>
+                                <th>5-Year CAGR</th>
+                                <th>10-Year CAGR</th>
+                                <th>15-Year CAGR</th>
+                                <th>20-Year CAGR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025</td>
+                                <td class="text-green-600">16.8%</td>
+                                <td class="text-green-600">14.2%</td>
+                                <td class="text-green-600">13.5%</td>
+                                <td class="text-green-600">12.8%</td>
+                                <td class="text-green-600">15.7%</td>
+                            </tr>
+                            <tr>
+                                <td>2024</td>
+                                <td class="text-green-600">21.7%</td>
+                                <td class="text-green-600">13.8%</td>
+                                <td class="text-green-600">13.2%</td>
+                                <td class="text-green-600">12.5%</td>
+                                <td class="text-green-600">15.3%</td>
+                            </tr>
+                            <tr>
+                                <td>2023</td>
+                                <td class="text-green-600">18.8%</td>
+                                <td class="text-green-600">12.7%</td>
+                                <td class="text-green-600">12.9%</td>
+                                <td class="text-green-600">12.2%</td>
+                                <td class="text-green-600">14.8%</td>
+                            </tr>
+                            <tr>
+                                <td>2022</td>
+                                <td class="text-green-600">4.2%</td>
+                                <td class="text-green-600">11.5%</td>
+                                <td class="text-green-600">12.2%</td>
+                                <td class="text-green-600">13.1%</td>
+                                <td class="text-green-600">14.5%</td>
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td class="text-green-600">22.0%</td>
+                                <td class="text-green-600">14.8%</td>
+                                <td class="text-green-600">12.5%</td>
+                                <td class="text-green-600">13.8%</td>
+                                <td class="text-green-600">15.1%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Source: NSE and BSE historical data as of April 2025</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Gold Price Returns</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Price (₹/10g)</th>
+                                    <th>1-Year Return</th>
+                                    <th>5-Year CAGR</th>
+                                    <th>10-Year CAGR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025</td>
+                                    <td>72,450</td>
+                                    <td class="text-green-600">14.8%</td>
+                                    <td class="text-green-600">11.8%</td>
+                                    <td class="text-green-600">9.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>2024</td>
+                                    <td>63,120</td>
+                                    <td class="text-green-600">18.2%</td>
+                                    <td class="text-green-600">10.5%</td>
+                                    <td class="text-green-600">9.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>2023</td>
+                                    <td>53,400</td>
+                                    <td class="text-green-600">8.2%</td>
+                                    <td class="text-green-600">9.8%</td>
+                                    <td class="text-green-600">8.7%</td>
+                                </tr>
+                                <tr>
+                                    <td>2022</td>
+                                    <td>49,350</td>
+                                    <td class="text-green-600">5.2%</td>
+                                    <td class="text-green-600">10.2%</td>
+                                    <td class="text-green-600">9.8%</td>
+                                </tr>
+                                <tr>
+                                    <td>2021</td>
+                                    <td>46,900</td>
+                                    <td class="text-red-600">-6.8%</td>
+                                    <td class="text-green-600">12.5%</td>
+                                    <td class="text-green-600">10.2%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Source: MCX Gold historical data</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Government Schemes Returns</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>PPF Rate</th>
+                                    <th>NSC Rate</th>
+                                    <th>KVP Rate</th>
+                                    <th>SCSS Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025</td>
+                                    <td>7.1%</td>
+                                    <td>7.7%</td>
+                                    <td>7.5%</td>
+                                    <td>8.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>2024</td>
+                                    <td>7.1%</td>
+                                    <td>7.7%</td>
+                                    <td>7.5%</td>
+                                    <td>8.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>2023</td>
+                                    <td>7.1%</td>
+                                    <td>7.7%</td>
+                                    <td>7.5%</td>
+                                    <td>8.0%</td>
+                                </tr>
+                                <tr>
+                                    <td>2022</td>
+                                    <td>7.1%</td>
+                                    <td>6.8%</td>
+                                    <td>6.9%</td>
+                                    <td>7.4%</td>
+                                </tr>
+                                <tr>
+                                    <td>2021</td>
+                                    <td>7.1%</td>
+                                    <td>6.8%</td>
+                                    <td>6.9%</td>
+                                    <td>7.4%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Source: Ministry of Finance, Government of India</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Mutual Fund Category Returns</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>1-Year</th>
+                                    <th>3-Year</th>
+                                    <th>5-Year</th>
+                                    <th>10-Year</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Large Cap</td>
+                                    <td class="text-green-600">16.2%</td>
+                                    <td class="text-green-600">15.8%</td>
+                                    <td class="text-green-600">12.5%</td>
+                                    <td class="text-green-600">12.8%</td>
+                                </tr>
+                                <tr>
+                                    <td>Mid Cap</td>
+                                    <td class="text-green-600">19.5%</td>
+                                    <td class="text-green-600">18.2%</td>
+                                    <td class="text-green-600">14.7%</td>
+                                    <td class="text-green-600">15.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>Small Cap</td>
+                                    <td class="text-green-600">22.4%</td>
+                                    <td class="text-green-600">21.5%</td>
+                                    <td class="text-green-600">15.8%</td>
+                                    <td class="text-green-600">16.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Debt - Corporate</td>
+                                    <td class="text-green-600">7.5%</td>
+                                    <td class="text-green-600">7.8%</td>
+                                    <td class="text-green-600">8.2%</td>
+                                    <td class="text-green-600">8.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Balanced/Hybrid</td>
+                                    <td class="text-green-600">13.8%</td>
+                                    <td class="text-green-600">14.2%</td>
+                                    <td class="text-green-600">12.5%</td>
+                                    <td class="text-green-600">12.2%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Source: AMFI data as of April 2025</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Real Estate Returns by City</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>1-Year</th>
+                                    <th>5-Year CAGR</th>
+                                    <th>10-Year CAGR</th>
+                                    <th>15-Year CAGR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mumbai</td>
+                                    <td class="text-green-600">6.5%</td>
+                                    <td class="text-green-600">7.2%</td>
+                                    <td class="text-green-600">8.8%</td>
+                                    <td class="text-green-600">10.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Delhi NCR</td>
+                                    <td class="text-green-600">8.2%</td>
+                                    <td class="text-green-600">6.8%</td>
+                                    <td class="text-green-600">7.5%</td>
+                                    <td class="text-green-600">9.8%</td>
+                                </tr>
+                                <tr>
+                                    <td>Bangalore</td>
+                                    <td class="text-green-600">10.2%</td>
+                                    <td class="text-green-600">9.5%</td>
+                                    <td class="text-green-600">11.2%</td>
+                                    <td class="text-green-600">12.8%</td>
+                                </tr>
+                                <tr>
+                                    <td>Pune</td>
+                                    <td class="text-green-600">9.8%</td>
+                                    <td class="text-green-600">8.5%</td>
+                                    <td class="text-green-600">9.2%</td>
+                                    <td class="text-green-600">10.8%</td>
+                                </tr>
+                                <tr>
+                                    <td>Hyderabad</td>
+                                    <td class="text-green-600">12.5%</td>
+                                    <td class="text-green-600">10.8%</td>
+                                    <td class="text-green-600">9.5%</td>
+                                    <td class="text-green-600">10.2%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Source: Housing price indices from various real estate agencies, 2025</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">ULIP vs Traditional Insurance Returns</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Product Type</th>
+                                <th>5-Year Return</th>
+                                <th>10-Year Return</th>
+                                <th>15-Year Return</th>
+                                <th>Key Features</th>
+                                <th>Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Equity ULIP Funds</td>
+                                <td class="text-green-600">12.5%</td>
+                                <td class="text-green-600">11.8%</td>
+                                <td class="text-green-600">10.5%</td>
+                                <td>Market-linked returns, insurance coverage, tax benefits</td>
+                                <td>Medium-High</td>
+                            </tr>
+                            <tr>
+                                <td>Balanced ULIP Funds</td>
+                                <td class="text-green-600">9.8%</td>
+                                <td class="text-green-600">9.2%</td>
+                                <td class="text-green-600">8.7%</td>
+                                <td>Moderate exposure to equity and debt, insurance coverage</td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td>Debt ULIP Funds</td>
+                                <td class="text-green-600">7.2%</td>
+                                <td class="text-green-600">7.5%</td>
+                                <td class="text-green-600">7.8%</td>
+                                <td>Conservative investment approach, stable returns</td>
+                                <td>Low-Medium</td>
+                            </tr>
+                            <tr>
+                                <td>Endowment Plans</td>
+                                <td class="text-green-600">5.5%</td>
+                                <td class="text-green-600">5.8%</td>
+                                <td class="text-green-600">6.0%</td>
+                                <td>Guaranteed returns, insurance coverage, maturity benefits</td>
+                                <td>Very Low</td>
+                            </tr>
+                            <tr>
+                                <td>Money-Back Policies</td>
+                                <td class="text-green-600">5.0%</td>
+                                <td class="text-green-600">5.2%</td>
+                                <td class="text-green-600">5.5%</td>
+                                <td>Periodic payouts, insurance coverage, final maturity</td>
+                                <td>Very Low</td>
+                            </tr>
+                            <tr>
+                                <td>Whole Life Plans</td>
+                                <td class="text-green-600">4.5%</td>
+                                <td class="text-green-600">4.8%</td>
+                                <td class="text-green-600">5.0%</td>
+                                <td>Lifetime coverage, stable returns, legacy planning</td>
+                                <td>Very Low</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Source: Insurance Regulatory and Development Authority of India (IRDAI) and insurance companies' disclosures, 2025</p>
+            </div>
+        </section>
+
+        <!-- Risk Profiles Section -->
+        <section id="risk-profiles" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Risk-Return Profiles</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-blue-800 mb-4">Conservative</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="text-blue-800 font-medium">Risk Tolerance: Very Low to Low</p>
+                        <p class="text-blue-800 font-medium">Expected Returns: 5-8% annually</p>
+                        <p class="text-blue-800 font-medium">Time Horizon: 1-3 years</p>
+                    </div>
+                    <p class="text-gray-700 mb-4">Conservative investors prioritize capital preservation over growth. They prefer stable, predictable returns with minimal risk of loss.</p>
+                    <h4 class="font-medium text-gray-800 mb-2">Recommended Investment Mix:</h4>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-4">
+                        <li>Fixed Deposits: 40%</li>
+                        <li>Government Schemes (PPF/NSC): 30%</li>
+                        <li>Debt Mutual Funds: 20%</li>
+                        <li>Gold: 5%</li>
+                        <li>Equity: 5%</li>
+                    </ul>
+                    <div class="chart-container h-48">
+                        <canvas id="conservativeChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-purple-800 mb-4">Moderate</h3>
+                    <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                        <p class="text-purple-800 font-medium">Risk Tolerance: Low to Medium</p>
+                        <p class="text-purple-800 font-medium">Expected Returns: 8-12% annually</p>
+                        <p class="text-purple-800 font-medium">Time Horizon: 3-7 years</p>
+                    </div>
+                    <p class="text-gray-700 mb-4">Moderate investors seek a balance between growth and stability. They can tolerate some market fluctuations for better long-term returns.</p>
+                    <h4 class="font-medium text-gray-800 mb-2">Recommended Investment Mix:</h4>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-4">
+                        <li>Equity Mutual Funds: 35%</li>
+                        <li>Debt Mutual Funds: 25%</li>
+                        <li>Government Schemes (PPF/NSC): 20%</li>
+                        <li>Fixed Deposits: 10%</li>
+                        <li>Gold: 5%</li>
+                        <li>Real Estate: 5%</li>
+                    </ul>
+                    <div class="chart-container h-48">
+                        <canvas id="moderateChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-red-800 mb-4">Aggressive</h3>
+                    <div class="bg-red-50 p-4 rounded-lg mb-4">
+                        <p class="text-red-800 font-medium">Risk Tolerance: Medium to High</p>
+                        <p class="text-red-800 font-medium">Expected Returns: 12-18% annually</p>
+                        <p class="text-red-800 font-medium">Time Horizon: 7+ years</p>
+                    </div>
+                    <p class="text-gray-700 mb-4">Aggressive investors prioritize growth over stability. They can withstand significant market volatility for potentially higher returns.</p>
+                    <h4 class="font-medium text-gray-800 mb-2">Recommended Investment Mix:</h4>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-4">
+                        <li>Equity Mutual Funds: 50%</li>
+                        <li>Direct Equity (Stocks): 20%</li>
+                        <li>Real Estate: 10%</li>
+                        <li>ULIPs (Equity): 10%</li>
+                        <li>Debt Mutual Funds: 5%</li>
+                        <li>Government Schemes (PPF): 5%</li>
+                    </ul>
+                    <div class="chart-container h-48">
+                        <canvas id="aggressiveChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Risk-Adjusted Return Metrics</h3>
+                <p class="text-gray-700 mb-6">Risk-adjusted return metrics help investors understand the potential return of an investment relative to its risk. These metrics are crucial for comparing different investment options on an equal footing.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-2">Sharpe Ratio</h4>
+                        <p class="text-gray-700 mb-4">The Sharpe ratio measures an investment's excess return (over the risk-free rate) per unit of total risk (standard deviation).</p>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <p class="font-mono">Sharpe Ratio = (Rp - Rf) / σp</p>
+                            <p class="text-sm text-gray-600 mt-2">Where:<br>
+                            Rp = Expected portfolio return<br>
+                            Rf = Risk-free rate<br>
+                            σp = Portfolio standard deviation</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-2">Sortino Ratio</h4>
+                        <p class="text-gray-700 mb-4">The Sortino ratio is similar to the Sharpe ratio but only considers downside risk (harmful volatility) rather than total volatility.</p>
+                        <div class="bg-gray-100 p-4 rounded">
+                            <p class="font-mono">Sortino Ratio = (Rp - Rf) / σd</p>
+                            <p class="text-sm text-gray-600 mt-2">Where:<br>
+                            Rp = Expected portfolio return<br>
+                            Rf = Risk-free rate<br>
+                            σd = Downside deviation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Risk-Adjusted Performance Comparison</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Investment Type</th>
+                                <th>Average Return (5yr)</th>
+                                <th>Standard Deviation</th>
+                                <th>Sharpe Ratio</th>
+                                <th>Sortino Ratio</th>
+                                <th>Maximum Drawdown</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Large Cap Equity Funds</td>
+                                <td class="text-green-600">12.5%</td>
+                                <td>18.2%</td>
+                                <td>0.68</td>
+                                <td>0.82</td>
+                                <td>28.5%</td>
+                            </tr>
+                            <tr>
+                                <td>Mid Cap Equity Funds</td>
+                                <td class="text-green-600">14.7%</td>
+                                <td>22.5%</td>
+                                <td>0.65</td>
+                                <td>0.79</td>
+                                <td>35.2%</td>
+                            </tr>
+                            <tr>
+                                <td>Debt Funds (Corporate)</td>
+                                <td class="text-green-600">8.2%</td>
+                                <td>4.5%</td>
+                                <td>1.82</td>
+                                <td>2.15</td>
+                                <td>5.2%</td>
+                            </tr>
+                            <tr>
+                                <td>ULIP (Equity)</td>
+                                <td class="text-green-600">11.8%</td>
+                                <td>16.5%</td>
+                                <td>0.71</td>
+                                <td>0.85</td>
+                                <td>24.8%</td>
+                            </tr>
+                            <tr>
+                                <td>Gold</td>
+                                <td class="text-green-600">11.2%</td>
+                                <td>15.8%</td>
+                                <td>0.70</td>
+                                <td>0.92</td>
+                                <td>18.5%</td>
+                            </tr>
+                            <tr>
+                                <td>Real Estate (Top 5 Cities)</td>
+                                <td class="text-green-600">9.5%</td>
+                                <td>8.2%</td>
+                                <td>1.15</td>
+                                <td>1.42</td>
+                                <td>12.8%</td>
+                            </tr>
+                            <tr>
+                                <td>PPF</td>
+                                <td class="text-green-600">7.1%</td>
+                                <td>0.2%</td>
+                                <td>35.50</td>
+                                <td>N/A</td>
+                                <td>0.0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Risk-free rate assumed at 4% for calculations. Higher Sharpe/Sortino ratios indicate better risk-adjusted returns.</p>
+            </div>
+        </section>
+
+        <!-- Interactive Calculators Section -->
+        <section id="calculators" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Interactive Investment Calculators</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Investment Growth Calculator</h3>
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="initialAmount">Initial Investment Amount (₹):</label>
+                        <input type="range" id="initialAmount" min="1000" max="5000000" step="1000" value="100000" class="calculator-slider mb-2">
+                        <span id="initialAmountValue" class="block text-blue-800 font-medium mb-4">₹1,00,000</span>
+                        
+                        <label class="block text-gray-700 mb-2" for="annualAddition">Annual Addition (₹):</label>
+                        <input type="range" id="annualAddition" min="0" max="1000000" step="1000" value="50000" class="calculator-slider mb-2">
+                        <span id="annualAdditionValue" class="block text-blue-800 font-medium mb-4">₹50,000</span>
+                        
+                        <label class="block text-gray-700 mb-2" for="returnRate">Expected Annual Return (%):</label>
+                        <input type="range" id="returnRate" min="4" max="20" step="0.5" value="12" class="calculator-slider mb-2">
+                        <span id="returnRateValue" class="block text-blue-800 font-medium mb-4">12%</span>
+                        
+                        <label class="block text-gray-700 mb-2" for="investmentPeriod">Investment Period (Years):</label>
+                        <input type="range" id="investmentPeriod" min="1" max="40" step="1" value="20" class="calculator-slider mb-2">
+                        <span id="investmentPeriodValue" class="block text-blue-800 font-medium mb-4">20 Years</span>
+                        
+                        <button id="calculateButton" class="bg-blue-800 text-white font-medium py-2 px-4 rounded mt-4 hover:bg-blue-700 transition duration-200">Calculate</button>
+                        
+                        <div id="calculationResult" class="mt-6 p-4 bg-gray-100 rounded-lg">
+                            <h4 class="font-medium text-gray-800 mb-2">Investment Growth Results:</h4>
+                            <p class="mb-1">Initial Investment: <span id="resultInitial" class="font-medium">₹1,00,000</span></p>
+                            <p class="mb-1">Total Contributions: <span id="resultContributions" class="font-medium">₹10,00,000</span></p>
+                            <p class="mb-1">Interest Earned: <span id="resultInterest" class="font-medium">₹35,20,934</span></p>
+                            <p class="mb-1">Final Amount: <span id="resultTotal" class="font-medium text-green-600">₹46,20,934</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Investment Comparison Calculator</h3>
+                    <p class="text-gray-700 mb-4">Compare the growth of your money across different investment options over time.</p>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="compareAmount">Investment Amount (₹):</label>
+                        <input type="range" id="compareAmount" min="10000" max="1000000" step="10000" value="100000" class="calculator-slider mb-2">
+                        <span id="compareAmountValue" class="block text-blue-800 font-medium mb-2">₹1,00,000</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="comparePeriod">Time Period (Years):</label>
+                        <select id="comparePeriod" class="w-full p-2 border border-gray-300 rounded mb-2">
+                            <option value="5">5 Years</option>
+                            <option value="10">10 Years</option>
+                            <option value="15">15 Years</option>
+                            <option value="20" selected>20 Years</option>
+                        </select>
+                    </div>
+                    
+                    <button id="compareButton" class="bg-blue-800 text-white font-medium py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-200">Compare Investments</button>
+                    
+                    <div id="comparisonResult" class="mt-6">
+                        <h4 class="font-medium text-gray-800 mb-2">Comparison Results for ₹1,00,000 over 20 Years:</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th>Investment Type</th>
+                                        <th>Expected Return</th>
+                                        <th>Final Amount</th>
+                                        <th>Growth Multiple</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comparisonTable">
+                                    <tr>
+                                        <td>Equity Mutual Funds</td>
+                                        <td>12% p.a.</td>
+                                        <td>₹9,64,629</td>
+                                        <td>9.65x</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ULIP (Equity)</td>
+                                        <td>10% p.a.</td>
+                                        <td>₹6,72,750</td>
+                                        <td>6.73x</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gold</td>
+                                        <td>8% p.a.</td>
+                                        <td>₹4,66,096</td>
+                                        <td>4.66x</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Real Estate</td>
+                                        <td>9% p.a.</td>
+                                        <td>₹5,60,441</td>
+                                        <td>5.60x</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PPF</td>
+                                        <td>7.1% p.a.</td>
+                                        <td>₹3,97,147</td>
+                                        <td>3.97x</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fixed Deposit</td>
+                                        <td>6% p.a.</td>
+                                        <td>₹3,20,714</td>
+                                        <td>3.21x</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Goal-Based Investment Calculator</h3>
+                <p class="text-gray-700 mb-6">Calculate how much you need to invest regularly to achieve your financial goals.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="goalAmount">Target Amount (₹):</label>
+                        <input type="range" id="goalAmount" min="100000" max="10000000" step="100000" value="5000000" class="calculator-slider mb-2">
+                        <span id="goalAmountValue" class="block text-blue-800 font-medium mb-4">₹50,00,000</span>
+                        
+                        <label class="block text-gray-700 mb-2" for="goalDuration">Time to Goal (Years):</label>
+                        <input type="range" id="goalDuration" min="1" max="30" step="1" value="15" class="calculator-slider mb-2">
+                        <span id="goalDurationValue" class="block text-blue-800 font-medium mb-4">15 Years</span>
+                        
+                        <label class="block text-gray-700 mb-2" for="goalReturn">Expected Return Rate (%):</label>
+                        <input type="range" id="goalReturn" min="4" max="20" step="0.5" value="10" class="calculator-slider mb-2">
+                        <span id="goalReturnValue" class="block text-blue-800 font-medium mb-4">10%</span>
+                        
+                        <label class="block text-gray-700 mb-2" for="investmentFrequency">Investment Frequency:</label>
+                        <select id="investmentFrequency" class="w-full p-2 border border-gray-300 rounded mb-4">
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                        
+                        <button id="goalCalculateButton" class="bg-blue-800 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 transition duration-200">Calculate Required Investment</button>
+                    </div>
+                    
+                    <div id="goalResult" class="bg-gray-100 p-6 rounded-lg">
+                        <h4 class="font-medium text-gray-800 mb-4">To reach your financial goal of ₹50,00,000 in 15 years:</h4>
+                        <div class="mb-4">
+                            <p class="text-gray-700 mb-2">You need to invest:</p>
+                            <p class="text-2xl font-bold text-blue-800 mb-4">₹13,625 per month</p>
+                        </div>
+                        <p class="text-gray-700 mb-2">Total investment over 15 years: <span class="font-medium">₹24,52,500</span></p>
+                        <p class="text-gray-700">Expected wealth creation: <span class="font-medium text-green-600">₹25,47,500</span></p>
+                        
+                        <div class="mt-6">
+                            <h5 class="font-medium text-gray-800 mb-2">Recommended Investment Allocation:</h5>
+                            <ul class="list-disc list-inside text-gray-700 ml-4">
+                                <li>Equity Mutual Funds: 60% (₹8,175 per month)</li>
+                                <li>Debt Mutual Funds: 20% (₹2,725 per month)</li>
+                                <li>ULIP/NPS: 10% (₹1,363 per month)</li>
+                                <li>Gold: 5% (₹681 per month)</li>
+                                <li>Fixed Income: 5% (₹681 per month)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Recommendations Section -->
+        <section id="recommendations" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Personalized Investment Recommendations</h2>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">Find Your Ideal Investment Mix</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <form id="investmentProfileForm">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="investmentGoal">Primary Investment Goal:</label>
+                                <select id="investmentGoal" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="retirement">Retirement Planning</option>
+                                    <option value="education">Children's Education</option>
+                                    <option value="house">Home Purchase</option>
+                                    <option value="wealth">Wealth Creation</option>
+                                    <option value="income">Regular Income</option>
+                                    <option value="tax">Tax Saving</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="timeHorizon">Investment Time Horizon:</label>
+                                <select id="timeHorizon" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="short">Short Term (0-3 years)</option>
+                                    <option value="medium">Medium Term (3-7 years)</option>
+                                    <option value="long" selected>Long Term (7+ years)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="riskTolerance">Risk Tolerance:</label>
+                                <select id="riskTolerance" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="low">Conservative (Low Risk)</option>
+                                    <option value="medium" selected>Moderate (Medium Risk)</option>
+                                    <option value="high">Aggressive (High Risk)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="monthlyInvestment">Monthly Investment Amount (₹):</label>
+                                <input type="range" id="monthlyInvestment" min="1000" max="100000" step="1000" value="10000" class="calculator-slider mb-2">
+                                <span id="monthlyInvestmentValue" class="block text-blue-800 font-medium">₹10,000</span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="age">Your Age:</label>
+                                <input type="range" id="age" min="18" max="70" step="1" value="35" class="calculator-slider mb-2">
+                                <span id="ageValue" class="block text-blue-800 font-medium">35 years</span>
+                            </div>
+                            
+                            <button type="button" id="generateRecommendation" class="bg-blue-800 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 transition duration-200">Generate Recommendations</button>
+                        </form>
+                    </div>
+                    
+                    <div id="recommendationResult" class="bg-gray-100 p-6 rounded-lg">
+                        <h4 class="font-medium text-gray-800 mb-4">Your Personalized Investment Recommendation</h4>
+                        <p class="text-gray-700 mb-6" id="recommendationSummary">Based on your profile as a 35-year-old investor with a moderate risk tolerance, long-term horizon, and monthly investment capacity of ₹10,000, here is your recommended investment allocation:</p>
+                        
+                        <div class="chart-container mb-6">
+                            <canvas id="recommendationChart"></canvas>
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-800 mb-2">Recommended Monthly Allocation:</h5>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>Investment Type</th>
+                                        <th>Allocation %</th>
+                                        <th>Monthly Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recommendationTable">
+                                    <tr>
+                                        <td>Equity Mutual Funds</td>
+                                        <td>40%</td>
+                                        <td>₹4,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Debt Mutual Funds</td>
+                                        <td>20%</td>
+                                        <td>₹2,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NPS/ULIP</td>
+                                        <td>15%</td>
+                                        <td>₹1,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PPF/ELSS</td>
+                                        <td>15%</td>
+                                        <td>₹1,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gold</td>
+                                        <td>5%</td>
+                                        <td>₹500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fixed Deposits</td>
+                                        <td>5%</td>
+                                        <td>₹500</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-blue-800 mb-2">Expected Outcome (25-year projection):</h5>
+                            <p class="text-gray-700 mb-1">Total Investment: <span class="font-medium">₹30,00,000</span></p>
+                            <p class="text-gray-700 mb-1">Estimated Returns: <span class="font-medium">₹82,45,000</span></p>
+                            <p class="text-gray-700">Projected Wealth: <span class="font-medium text-green-600">₹1,12,45,000</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-blue-800 mb-4">Short-Term Goals <span class="text-sm font-normal text-gray-600">(0-3 years)</span></h3>
+                    <p class="text-gray-700 mb-4">For short-term financial goals like emergency funds, major purchases, or upcoming expenses.</p>
+                    <h4 class="font-medium text-gray-800 mb-2">Recommended Investments:</h4>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-4">
+                        <li>Fixed Deposits: 50%</li>
+                        <li>Liquid Mutual Funds: 30%</li>
+                        <li>Ultra Short-Term Debt Funds: 15%</li>
+                        <li>Savings Account: 5%</li>
+                    </ul>
+                    <p class="text-gray-700">Expected returns: 5-7% with high liquidity and minimal risk of capital loss.</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-purple-800 mb-4">Medium-Term Goals <span class="text-sm font-normal text-gray-600">(3-7 years)</span></h3>
+                    <p class="text-gray-700 mb-4">For medium-term objectives like home down payment, higher education, or vehicle purchase.</p>
+                    <h4 class="font-medium text-gray-800 mb-2">Recommended Investments:</h4>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-4">
+                        <li>Balanced Mutual Funds: 35%</li>
+                        <li>Corporate Bond Funds: 25%</li>
+                        <li>Fixed Deposits: 20%</li>
+                        <li>Government Securities: 15%</li>
+                        <li>Gold: 5%</li>
+                    </ul>
+                    <p class="text-gray-700">Expected returns: 8-10% with balanced risk and moderate liquidity.</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-red-800 mb-4">Long-Term Goals <span class="text-sm font-normal text-gray-600">(7+ years)</span></h3>
+                    <p class="text-gray-700 mb-4">For long-term financial security like retirement planning, children's education, or wealth creation.</p>
+                    <h4 class="font-medium text-gray-800 mb-2">Recommended Investments:</h4>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-4">
+                        <li>Equity Mutual Funds: 50%</li>
+                        <li>NPS/ULIP: 15%</li>
+                        <li>PPF/ELSS: 15%</li>
+                        <li>Real Estate: 10%</li>
+                        <li>Gold: 5%</li>
+                        <li>Debt Funds: 5%</li>
+                    </ul>
+                    <p class="text-gray-700">Expected returns: 12-15% with higher potential for wealth creation over time.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Educational Content Section -->
+        <section id="education" class="mb-16">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Investment Education</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Key Factors to Consider When Choosing Investments</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">1. Risk Tolerance</h4>
+                            <p class="text-gray-700">Your ability and willingness to endure investment volatility. Consider your financial situation, investment experience, and psychological comfort with market fluctuations.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">2. Time Horizon</h4>
+                            <p class="text-gray-700">The length of time you plan to hold an investment before needing the funds. Longer time horizons generally allow for higher-risk investments as you have more time to recover from market downturns.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">3. Financial Goals</h4>
+                            <p class="text-gray-700">What you're saving and investing for—retirement, education, home purchase, etc. Different goals require different investment strategies.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">4. Liquidity Needs</h4>
+                            <p class="text-gray-700">How quickly you might need to access your funds. Some investments (like real estate or certain insurance products) have lock-in periods or penalties for early withdrawal.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">5. Tax Efficiency</h4>
+                            <p class="text-gray-700">How investments are taxed can significantly impact your overall returns. Consider tax benefits and implications when choosing investment vehicles.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Understanding Investment Returns</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">Types of Returns</h4>
+                            <ul class="list-disc list-inside text-gray-700 ml-4">
+                                <li><strong>Absolute Return:</strong> The simple gain or loss on an investment over a specific period.</li>
+                                <li><strong>CAGR (Compound Annual Growth Rate):</strong> The annual rate of return that shows what an investment yields on a compounded basis.</li>
+                                <li><strong>Total Return:</strong> Includes both capital appreciation and income (dividends, interest).</li>
+                                <li><strong>Real Return:</strong> Return adjusted for inflation, representing actual purchasing power gained.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">Calculating CAGR</h4>
+                            <div class="bg-gray-100 p-4 rounded">
+                                <p class="font-mono">CAGR = (Final Value / Initial Value)^(1/n) - 1</p>
+                                <p class="text-sm text-gray-600 mt-2">Where n is the number of years</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">Understanding Return Variations</h4>
+                            <p class="text-gray-700">Returns can vary significantly based on:</p>
+                            <ul class="list-disc list-inside text-gray-700 ml-4">
+                                <li>Market conditions and economic cycles</li>
+                                <li>Investment management quality</li>
+                                <li>Asset allocation and diversification</li>
+                                <li>Entry and exit timing</li>
+                                <li>External factors (regulations, taxes, global events)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Detailed Investment Types Comparison</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Investment Type</th>
+                                <th>Ideal For</th>
+                                <th>Pros</th>
+                                <th>Cons</th>
+                                <th>Risk Level</th>
+                                <th>Liquidity</th>
+                                <th>Tax Implications</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Equity Mutual Funds</td>
+                                <td>Long-term growth, wealth creation</td>
+                                <td>Professional management, diversification, potential for high returns</td>
+                                <td>Market volatility, risk of capital loss in short term</td>
+                                <td>High</td>
+                                <td>High (3-5 business days)</td>
+                                <td>LTCG: 10% above ₹1 lakh; STCG: 15%</td>
+                            </tr>
+                            <tr>
+                                <td>Debt Mutual Funds</td>
+                                <td>Regular income, capital preservation</td>
+                                <td>Relatively stable returns, better than FDs for tax efficiency</td>
+                                <td>Interest rate risk, credit risk</td>
+                                <td>Low-Medium</td>
+                                <td>High (1-3 business days)</td>
+                                <td>LTCG: 20% with indexation; STCG: As per income tax slab</td>
+                            </tr>
+                            <tr>
+                                <td>ULIP</td>
+                                <td>Life coverage with investment</td>
+                                <td>Insurance + investment, tax-free returns after 5 years, multiple fund options</td>
+                                <td>High initial charges, long lock-in (5 years), surrender penalties</td>
+                                <td>Medium-High</td>
+                                <td>Low (5-year lock-in)</td>
+                                <td>Tax-free under Section 10(10D) if conditions met</td>
+                            </tr>
+                            <tr>
+                                <td>Traditional Insurance</td>
+                                <td>Risk-averse investors seeking insurance</td>
+                                <td>Guaranteed returns, life coverage, maturity benefit</td>
+                                <td>Low returns, high premium, long commitment</td>
+                                <td>Very Low</td>
+                                <td>Very Low</td>
+                                <td>Tax-free maturity amount under Section 10(10D)</td>
+                            </tr>
+                            <tr>
+                                <td>PPF</td>
+                                <td>Long-term tax-efficient savings</td>
+                                <td>Government-backed safety, tax-free returns, EEE tax status</td>
+                                <td>Long lock-in (15 years), limited liquidity, investment cap</td>
+                                <td>Very Low</td>
+                                <td>Low (partial withdrawal after 7 years)</td>
+                                <td>Completely tax-free (EEE status)</td>
+                            </tr>
+                            <tr>
+                                <td>Real Estate</td>
+                                <td>Long-term capital appreciation, rental income</td>
+                                <td>Tangible asset, potential for high appreciation, rental income</td>
+                                <td>High initial investment, low liquidity, maintenance costs</td>
+                                <td>Medium</td>
+                                <td>Very Low</td>
+                                <td>LTCG: 20% with indexation; rental income taxed at slab rate</td>
+                            </tr>
+                            <tr>
+                                <td>Gold</td>
+                                <td>Portfolio diversification, inflation hedge</td>
+                                <td>Protection against inflation, portfolio diversifier</td>
+                                <td>No regular income, price volatility, storage concerns</td>
+                                <td>Medium</td>
+                                <td>Medium</td>
+                                <td>LTCG: 20% with indexation; STCG: As per income tax slab</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">LTCG: Long-Term Capital Gains, STCG: Short-Term Capital Gains, EEE: Exempt-Exempt-Exempt tax status</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Common Investment Mistakes to Avoid</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                        <li><strong>Not Having a Clear Strategy:</strong> Investing without defined goals and time horizons.</li>
+                        <li><strong>Timing the Market:</strong> Trying to predict market movements often leads to buying high and selling low.</li>
+                        <li><strong>Inadequate Diversification:</strong> Putting all your money in one or few investment types increases risk.</li>
+                        <li><strong>Chasing Past Performance:</strong> Assuming that investments that performed well in the past will continue to do so.</li>
+                        <li><strong>Ignoring Fees and Expenses:</strong> High fees can significantly reduce returns over time.</li>
+                        <li><strong>Emotional Decision-Making:</strong> Making investment decisions based on fear or greed rather than analysis.</li>
+                        <li><strong>Neglecting Regular Portfolio Review:</strong> Not realigning investments with changing goals and market conditions.</li>
+                        <li><strong>Overlooking Tax Implications:</strong> Not considering how taxes impact overall returns.</li>
+                        <li><strong>Inadequate Insurance Coverage:</strong> Investing for growth while being underinsured for life's risks.</li>
+                        <li><strong>Not Starting Early:</strong> Postponing investing and missing the benefits of compounding.</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">How to Read Investment Performance Data</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">Key Performance Metrics</h4>
+                            <ul class="list-disc list-inside text-gray-700 ml-4">
+                                <li><strong>Annualized Returns:</strong> Average yearly return over a specific period, accounting for compounding.</li>
+                                <li><strong>Rolling Returns:</strong> Returns for different periods of the same length (e.g., every 3-year period within 10 years).</li>
+                                <li><strong>Standard Deviation:</strong> Measures volatility or risk—higher numbers indicate more volatility.</li>
+                                <li><strong>Sharpe Ratio:</strong> Measures risk-adjusted returns—higher numbers indicate better risk-adjusted performance.</li>
+                                <li><strong>Beta:</strong> Indicates an investment's volatility compared to the market (1.0 = same as market).</li>
+                                <li><strong>Alpha:</strong> Excess return compared to the benchmark after adjusting for risk.</li>
+                                <li><strong>Maximum Drawdown:</strong> The largest drop from peak to trough, indicating potential loss.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-1">Interpretation Tips</h4>
+                            <ul class="list-disc list-inside text-gray-700 ml-4">
+                                <li>Look at returns over multiple time periods (1, 3, 5, 10 years).</li>
+                                <li>Compare performance to appropriate benchmarks.</li>
+                                <li>Consider risk-adjusted returns, not just absolute returns.</li>
+                                <li>Examine performance in different market conditions (up and down markets).</li>
+                                <li>Evaluate if the investment has met its stated objectives.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">InvestCompare</h3>
+                    <p class="text-gray-400">Comprehensive investment comparison tool to help you make informed financial decisions.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#overview" class="text-gray-400 hover:text-white">Overview</a></li>
+                        <li><a href="#comparison" class="text-gray-400 hover:text-white">Investment Comparison</a></li>
+                        <li><a href="#historical-returns" class="text-gray-400 hover:text-white">Historical Returns</a></li>
+                        <li><a href="#calculators" class="text-gray-400 hover:text-white">Calculators</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#risk-profiles" class="text-gray-400 hover:text-white">Risk Profiles</a></li>
+                        <li><a href="#recommendations" class="text-gray-400 hover:text-white">Recommendations</a></li>
+                        <li><a href="#education" class="text-gray-400 hover:text-white">Education</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Disclaimer</h4>
+                    <p class="text-gray-400 text-sm">The information provided is for educational purposes only. It is not financial advice and should not be considered as such. Past performance is not indicative of future results. Always consult with a qualified financial advisor before making investment decisions.</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>© 2025 InvestCompare. All rights reserved.</p>
+                <p class="mt-2">Data last updated: April 30, 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize charts when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Returns Chart
+            const returnsCtx = document.getElementById('returnsChart').getContext('2d');
+            const returnsChart = new Chart(returnsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Equity', 'Equity MF', 'ULIP', 'Gold', 'Real Estate', 'PPF', 'NSC', 'FD'],
+                    datasets: [
+                        {
+                            label: '5-Year Returns',
+                            data: [14.2, 12.5, 9.2, 11.8, 8.5, 7.1, 7.7, 6.5],
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '10-Year Returns',
+                            data: [13.5, 12.8, 8.7, 9.5, 9.2, 7.5, 7.9, 7.0],
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '20-Year Returns',
+                            data: [15.7, 14.2, 8.0, 12.8, 10.2, 8.0, 8.2, 7.5],
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Annual Returns (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparison of Historical Returns Across Investment Types'
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+            
+            // Risk-Return Chart
+            const riskReturnCtx = document.getElementById('riskReturnChart').getContext('2d');
+            const riskReturnChart = new Chart(riskReturnCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Investment Types',
+                        data: [
+                            { x: 18.2, y: 14.2, label: 'Equity' },
+                            { x: 16.5, y: 12.5, label: 'Equity MF' },
+                            { x: 4.5, y: 8.2, label: 'Debt MF' },
+                            { x: 0.2, y: 7.1, label: 'PPF' },
+                            { x: 15.8, y: 11.2, label: 'Gold' },
+                            { x: 16.5, y: 11.8, label: 'ULIP (Equity)' },
+                            { x: 8.2, y: 9.5, label: 'Real Estate' },
+                            { x: 1.5, y: 6.5, label: 'FD' },
+                            { x: 3.2, y: 5.0, label: 'Insurance' }
+                        ],
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        pointRadius: 8,
+                        pointHoverRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Risk (Standard Deviation %)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Return (5-Year CAGR %)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Risk vs. Return Profile'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw.label + ': Return: ' + context.raw.y + '%, Risk: ' + context.raw.x + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Risk Profile Charts
+            const conservativeCtx = document.getElementById('conservativeChart').getContext('2d');
+            const conservativeChart = new Chart(conservativeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fixed Deposits', 'Government Schemes', 'Debt Mutual Funds', 'Gold', 'Equity'],
+                    datasets: [{
+                        data: [40, 30, 20, 5, 5],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const moderateCtx = document.getElementById('moderateChart').getContext('2d');
+            const moderateChart = new Chart(moderateCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Equity Mutual Funds', 'Debt Mutual Funds', 'Government Schemes', 'Fixed Deposits', 'Gold', 'Real Estate'],
+                    datasets: [{
+                        data: [35, 25, 20, 10, 5, 5],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(255, 159, 64, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const aggressiveCtx = document.getElementById('aggressiveChart').getContext('2d');
+            const aggressiveChart = new Chart(aggressiveCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Equity Mutual Funds', 'Direct Equity', 'Real Estate', 'ULIPs', 'Debt Mutual Funds', 'Government Schemes'],
+                    datasets: [{
+                        data: [50, 20, 10, 10, 5, 5],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(54, 162, 235, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Recommendation Chart
+            const recommendationCtx = document.getElementById('recommendationChart').getContext('2d');
+            const recommendationChart = new Chart(recommendationCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Equity Mutual Funds', 'Debt Mutual Funds', 'NPS/ULIP', 'PPF/ELSS', 'Gold', 'Fixed Deposits'],
+                    datasets: [{
+                        data: [40, 20, 15, 15, 5, 5],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Recommended Asset Allocation'
+                        }
+                    }
+                }
+            });
+
+            // Calculator Sliders Logic
+            document.getElementById('initialAmount').addEventListener('input', function() {
+                document.getElementById('initialAmountValue').textContent = '₹' + formatNumber(this.value);
+            });
+            
+            document.getElementById('annualAddition').addEventListener('input', function() {
+                document.getElementById('annualAdditionValue').textContent = '₹' + formatNumber(this.value);
+            });
+            
+            document.getElementById('returnRate').addEventListener('input', function() {
+                document.getElementById('returnRateValue').textContent = this.value + '%';
+            });
+            
+            document.getElementById('investmentPeriod').addEventListener('input', function() {
+                document.getElementById('investmentPeriodValue').textContent = this.value + ' Years';
+            });
+            
+            document.getElementById('calculateButton').addEventListener('click', function() {
+                calculateInvestmentGrowth();
+            });
+            
+            // Comparison Calculator Logic
+            document.getElementById('compareAmount').addEventListener('input', function() {
+                document.getElementById('compareAmountValue').textContent = '₹' + formatNumber(this.value);
+            });
+            
+            document.getElementById('compareButton').addEventListener('click', function() {
+                updateComparisonTable();
+            });
+            
+            // Goal Calculator Logic
+            document.getElementById('goalAmount').addEventListener('input', function() {
+                document.getElementById('goalAmountValue').textContent = '₹' + formatNumber(this.value);
+            });
+            
+            document.getElementById('goalDuration').addEventListener('input', function() {
+                document.getElementById('goalDurationValue').textContent = this.value + ' Years';
+            });
+            
+            document.getElementById('goalReturn').addEventListener('input', function() {
+                document.getElementById('goalReturnValue').textContent = this.value + '%';
+            });
+            
+            document.getElementById('goalCalculateButton').addEventListener('click', function() {
+                calculateRequiredInvestment();
+            });
+            
+            // Recommendation Tool Logic
+            document.getElementById('monthlyInvestment').addEventListener('input', function() {
+                document.getElementById('monthlyInvestmentValue').textContent = '₹' + formatNumber(this.value);
+            });
+            
+            document.getElementById('age').addEventListener('input', function() {
+                document.getElementById('ageValue').textContent = this.value + ' years';
+            });
+            
+            document.getElementById('generateRecommendation').addEventListener('click', function() {
+                generateInvestmentRecommendation();
+            });
+            
+            // Helper Functions
+            function formatNumber(num) {
+                return new Intl.NumberFormat('en-IN').format(num);
+            }
+            
+            function calculateInvestmentGrowth() {
+                const initialAmount = parseFloat(document.getElementById('initialAmount').value);
+                const annualAddition = parseFloat(document.getElementById('annualAddition').value);
+                const returnRate = parseFloat(document.getElementById('returnRate').value) / 100;
+                const years = parseInt(document.getElementById('investmentPeriod').value);
+                
+                let totalAmount = initialAmount;
+                for (let i = 0; i < years; i++) {
+                    totalAmount = totalAmount * (1 + returnRate) + annualAddition;
+                }
+                
+                const totalContributions = initialAmount + (annualAddition * years);
+                const interestEarned = totalAmount - totalContributions;
+                
+                document.getElementById('resultInitial').textContent = '₹' + formatNumber(initialAmount);
+                document.getElementById('resultContributions').textContent = '₹' + formatNumber(totalContributions);
+                document.getElementById('resultInterest').textContent = '₹' + formatNumber(interestEarned.toFixed(0));
+                document.getElementById('resultTotal').textContent = '₹' + formatNumber(totalAmount.toFixed(0));
+            }
+            
+            function updateComparisonTable() {
+                const amount = parseFloat(document.getElementById('compareAmount').value);
+                const years = parseInt(document.getElementById('comparePeriod').value);
+                
+                // Sample return rates for different investment types
+                const returnRates = {
+                    "Equity Mutual Funds": { 5: 12, 10: 12.8, 15: 13.5, 20: 14.2 },
+                    "ULIP (Equity)": { 5: 10, 10: 9.5, 15: 9, 20: 8.5 },
+                    "Gold": { 5: 8, 10: 8.5, 15: 9.5, 20: 11 },
+                    "Real Estate": { 5: 9, 10: 9.5, 15: 10, 20: 10.5 },
+                    "PPF": { 5: 7.1, 10: 7.5, 15: 7.8, 20: 8 },
+                    "Fixed Deposit": { 5: 6, 10: 6.5, 15: 6.8, 20: 7 }
+                };
+                
+                let tableHTML = '';
+                
+                Object.keys(returnRates).forEach(type => {
+                    const rate = returnRates[type][years];
+                    const finalAmount = amount * Math.pow((1 + rate/100), years);
+                    const growthMultiple = finalAmount / amount;
+                    
+                    tableHTML += `<tr>
+                        <td>${type}</td>
+                        <td>${rate}% p.a.</td>
+                        <td>₹${formatNumber(finalAmount.toFixed(0))}</td>
+                        <td>${growthMultiple.toFixed(2)}x</td>
+                    </tr>`;
+                });
+                
+                document.getElementById('comparisonTable').innerHTML = tableHTML;
+                document.querySelector('#comparisonResult h4').textContent = `Comparison Results for ₹${formatNumber(amount)} over ${years} Years:`;
+            }
+            
+            function calculateRequiredInvestment() {
+                const goalAmount = parseFloat(document.getElementById('goalAmount').value);
+                const years = parseInt(document.getElementById('goalDuration').value);
+                const rate = parseFloat(document.getElementById('goalReturn').value) / 100;
+                const frequency = document.getElementById('investmentFrequency').value;
+                
+                // Calculate required monthly investment
+                let periodsPerYear;
+                if (frequency === 'monthly') periodsPerYear = 12;
+                else if (frequency === 'quarterly') periodsPerYear = 4;
+                else periodsPerYear = 1;
+                
+                const periods = years * periodsPerYear;
+                const ratePerPeriod = Math.pow(1 + rate, 1/periodsPerYear) - 1;
+                
+                const payment = goalAmount * ratePerPeriod / (Math.pow(1 + ratePerPeriod, periods) - 1);
+                
+                // Update UI
+                const totalInvestment = payment * periods;
+                const wealthCreation = goalAmount - totalInvestment;
+                
+                let frequencyText;
+                if (frequency === 'monthly') frequencyText = 'per month';
+                else if (frequency === 'quarterly') frequencyText = 'per quarter';
+                else frequencyText = 'per year';
+                
+                document.querySelector('#goalResult h4').textContent = `To reach your financial goal of ₹${formatNumber(goalAmount)} in ${years} years:`;
+                document.querySelector('#goalResult .text-2xl').textContent = `₹${formatNumber(payment.toFixed(0))} ${frequencyText}`;
+                document.querySelector('#goalResult p:nth-of-type(1)').innerHTML = `Total investment over ${years} years: <span class="font-medium">₹${formatNumber(totalInvestment.toFixed(0))}</span>`;
+                document.querySelector('#goalResult p:nth-of-type(2)').innerHTML = `Expected wealth creation: <span class="font-medium text-green-600">₹${formatNumber(wealthCreation.toFixed(0))}</span>`;
+                
+                // Update allocation suggestions
+                let recommendationHTML = '';
+                
+                if (years <= 3) {
+                    // Short-term allocations
+                    recommendationHTML = `
+                    <li>Fixed Deposits: 50% (₹${formatNumber((payment * 0.5).toFixed(0))} ${frequencyText})</li>
+                    <li>Liquid Mutual Funds: 30% (₹${formatNumber((payment * 0.3).toFixed(0))} ${frequencyText})</li>
+                    <li>Ultra Short Debt Funds: 15% (₹${formatNumber((payment * 0.15).toFixed(0))} ${frequencyText})</li>
+                    <li>Liquid Gold/Savings: 5% (₹${formatNumber((payment * 0.05).toFixed(0))} ${frequencyText})</li>
+                    `;
+                } else if (years <= 7) {
+                    // Medium-term allocations
+                    recommendationHTML = `
+                    <li>Balanced Mutual Funds: 35% (₹${formatNumber((payment * 0.35).toFixed(0))} ${frequencyText})</li>
+                    <li>Corporate Bond Funds: 25% (₹${formatNumber((payment * 0.25).toFixed(0))} ${frequencyText})</li>
+                    <li>Fixed Deposits: 20% (₹${formatNumber((payment * 0.2).toFixed(0))} ${frequencyText})</li>
+                    <li>Government Securities: 15% (₹${formatNumber((payment * 0.15).toFixed(0))} ${frequencyText})</li>
+                    <li>Gold: 5% (₹${formatNumber((payment * 0.05).toFixed(0))} ${frequencyText})</li>
+                    `;
+                } else {
+                    // Long-term allocations
+                    recommendationHTML = `
+                    <li>Equity Mutual Funds: 60% (₹${formatNumber((payment * 0.6).toFixed(0))} ${frequencyText})</li>
+                    <li>Debt Mutual Funds: 20% (₹${formatNumber((payment * 0.2).toFixed(0))} ${frequencyText})</li>
+                    <li>ULIP/NPS: 10% (₹${formatNumber((payment * 0.1).toFixed(0))} ${frequencyText})</li>
+                    <li>Gold: 5% (₹${formatNumber((payment * 0.05).toFixed(0))} ${frequencyText})</li>
+                    <li>Fixed Income: 5% (₹${formatNumber((payment * 0.05).toFixed(0))} ${frequencyText})</li>
+                    `;
+                }
+                
+                document.querySelector('#goalResult ul').innerHTML = recommendationHTML;
+            }
+            
+            function generateInvestmentRecommendation() {
+                const investmentGoal = document.getElementById('investmentGoal').value;
+                const timeHorizon = document.getElementById('timeHorizon').value;
+                const riskTolerance = document.getElementById('riskTolerance').value;
+                const monthlyInvestment = parseInt(document.getElementById('monthlyInvestment').value);
+                const age = parseInt(document.getElementById('age').value);
+                
+                // Generate a personalized recommendation summary
+                let summary = `Based on your profile as a ${age}-year-old investor with a ${riskTolerance === 'low' ? 'conservative' : riskTolerance === 'medium' ? 'moderate' : 'aggressive'} risk tolerance, ${timeHorizon === 'short' ? 'short-term' : timeHorizon === 'medium' ? 'medium-term' : 'long-term'} horizon, and monthly investment capacity of ₹${formatNumber(monthlyInvestment)}, here is your recommended investment allocation:`;
+                
+                document.getElementById('recommendationSummary').textContent = summary;
+                
+                // Determine allocation based on risk tolerance and time horizon
+                let allocation = {};
+                
+                if (riskTolerance === 'low') {
+                    if (timeHorizon === 'short') {
+                        allocation = {
+                            'Fixed Deposits': 45,
+                            'Liquid Funds': 30,
+                            'Debt Mutual Funds': 15,
+                            'PPF': 5,
+                            'Gold': 5
+                        };
+                    } else if (timeHorizon === 'medium') {
+                        allocation = {
+                            'Debt Mutual Funds': 40,
+                            'Fixed Deposits': 25,
+                            'PPF': 20,
+                            'Balanced Funds': 10,
+                            'Gold': 5
+                        };
+                    } else {
+                        allocation = {
+                            'Debt Mutual Funds': 35,
+                            'PPF': 25,
+                            'Equity Mutual Funds': 20,
+                            'ULIP/NPS': 15,
+                            'Gold': 5
+                        };
+                    }
+                } else if (riskTolerance === 'medium') {
+                    if (timeHorizon === 'short') {
+                        allocation = {
+                            'Debt Mutual Funds': 40,
+                            'Balanced Funds': 30,
+                            'Fixed Deposits': 20,
+                            'Equity Mutual Funds': 5,
+                            'Gold': 5
+                        };
+                    } else if (timeHorizon === 'medium') {
+                        allocation = {
+                            'Balanced Funds': 35,
+                            'Equity Mutual Funds': 25,
+                            'Debt Mutual Funds': 20,
+                            'PPF': 15,
+                            'Gold': 5
+                        };
+                    } else {
+                        allocation = {
+                            'Equity Mutual Funds': 40,
+                            'Debt Mutual Funds': 20,
+                            'NPS/ULIP': 15,
+                            'PPF/ELSS': 15,
+                            'Gold': 5,
+                            'Fixed Deposits': 5
+                        };
+                    }
+                } else {
+                    if (timeHorizon === 'short') {
+                        allocation = {
+                            'Balanced Funds': 45,
+                            'Equity Mutual Funds': 25,
+                            'Debt Mutual Funds': 20,
+                            'Gold': 5,
+                            'Fixed Deposits': 5
+                        };
+                    } else if (timeHorizon === 'medium') {
+                        allocation = {
+                            'Equity Mutual Funds': 50,
+                            'Balanced Funds': 20,
+                            'ULIP/NPS': 15,
+                            'Debt Mutual Funds': 10,
+                            'Gold': 5
+                        };
+                    } else {
+                        allocation = {
+                            'Equity Mutual Funds': 60,
+                            'Direct Equity': 15,
+                            'ULIP/NPS': 10,
+                            'PPF/ELSS': 10,
+                            'Gold': 5
+                        };
+                    }
+                }
+                
+                // Update the recommendation chart
+                recommendationChart.data.labels = Object.keys(allocation);
+                recommendationChart.data.datasets[0].data = Object.values(allocation);
+                recommendationChart.update();
+                
+                // Update the recommendation table
+                let tableHTML = '';
+                
+                Object.entries(allocation).forEach(([type, percentage]) => {
+                    const amount = (monthlyInvestment * percentage / 100).toFixed(0);
+                    
+                    tableHTML += `<tr>
+                        <td>${type}</td>
+                        <td>${percentage}%</td>
+                        <td>₹${formatNumber(amount)}</td>
+                    </tr>`;
+                });
+                
+                document.getElementById('recommendationTable').innerHTML = tableHTML;
+                
+                // Calculate projected outcome
+                let rateOfReturn;
+                if (riskTolerance === 'low') {
+                    rateOfReturn = 0.08; // 8%
+                } else if (riskTolerance === 'medium') {
+                    rateOfReturn = 0.10; // 10% 
+                } else {
+                    rateOfReturn = 0.12; // 12%
+                }
+                
+                let projectionYears;
+                if (timeHorizon === 'short') {
+                    projectionYears = 25;
+                } else if (timeHorizon === 'medium') {
+                    projectionYears = 25;
+                } else {
+                    projectionYears = 25;
+                }
+                
+                const totalInvestment = monthlyInvestment * 12 * projectionYears;
+                
+                // Calculate future value of monthly investment
+                const monthlyRate = Math.pow(1 + rateOfReturn, 1/12) - 1;
+                const months = projectionYears * 12;
+                const futureValue = monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+                
+                const returns = futureValue - totalInvestment;
+                
+                document.querySelector('#recommendationResult .bg-blue-50 h5').textContent = `Expected Outcome (${projectionYears}-year projection):`;
+                document.querySelector('#recommendationResult .bg-blue-50 p:nth-of-type(1)').innerHTML = `Total Investment: <span class="font-medium">₹${formatNumber(totalInvestment)}</span>`;
+                document.querySelector('#recommendationResult .bg-blue-50 p:nth-of-type(2)').innerHTML = `Estimated Returns: <span class="font-medium">₹${formatNumber(returns.toFixed(0))}</span>`;
+                document.querySelector('#recommendationResult .bg-blue-50 p:nth-of-type(3)').innerHTML = `Projected Wealth: <span class="font-medium text-green-600">₹${formatNumber(futureValue.toFixed(0))}</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
